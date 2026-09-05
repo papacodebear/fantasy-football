@@ -13,7 +13,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "preview": "vite preview",
-    "deploy": "vite build && wrangler pages deploy dist"
+    "deploy": "vite build && wrangler deploy"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.2",
