@@ -39,8 +39,9 @@ export default function DraftHeader({
   const onTheClock =
     currentSlot !== null ? (slotLabels[currentSlot] ?? `Slot ${currentSlot}`) : null
 
+  const isPaused = draft.status === 'paused'
   let countdown: string | null = null
-  if (!isComplete && pick_timer && draft.last_picked) {
+  if (!isComplete && !isPaused && pick_timer && draft.last_picked) {
     const deadline = draft.last_picked + pick_timer * 1000
     const remainingSec = Math.max(0, Math.round((deadline - now) / 1000))
     countdown = `${Math.floor(remainingSec / 60)}:${String(remainingSec % 60).padStart(2, '0')}`
@@ -85,11 +86,17 @@ export default function DraftHeader({
         </div>
         {!isComplete && onTheClock && (
           <div className="text-right">
-            <p className="text-xs uppercase tracking-wide text-emerald-400">On the clock</p>
-            <p className="text-base font-medium text-slate-100 sm:text-lg">
-              {onTheClock}
-              {countdown && <span className="ml-2 font-mono text-slate-400">{countdown}</span>}
+            <p className="text-xs uppercase tracking-wide text-emerald-400">
+              {isPaused ? 'Paused' : 'On the clock'}
             </p>
+            <div className="flex items-baseline justify-end gap-3">
+              <p className="text-base font-medium text-slate-100 sm:text-lg">{onTheClock}</p>
+              {countdown && (
+                <span className="font-mono text-2xl font-bold tabular-nums text-slate-100 sm:text-4xl">
+                  {countdown}
+                </span>
+              )}
+            </div>
           </div>
         )}
         <span
