@@ -33,64 +33,67 @@ export default function DraftBoard({ draft, picks, slotLabels }: Props) {
 
   return (
     <div className="h-full overflow-auto px-3 pb-3 sm:px-4 sm:pb-4">
-      <div className="sticky top-0 z-10 -mx-3 bg-slate-950 px-3 pt-3 pb-3 sm:-mx-4 sm:px-4 sm:pt-4">
-        <div className="grid gap-2" style={{ gridTemplateColumns }}>
-          {slots.map((slot) => (
-            <div
-              key={`head-${slot}`}
-              className="flex items-center justify-center rounded-md bg-slate-900 px-2 py-2 text-center text-sm font-semibold leading-tight text-slate-200 sm:text-base"
-              title={slotLabels[slot] ?? `Slot ${slot}`}
-            >
-              <span className="line-clamp-3">{slotLabels[slot] ?? `Slot ${slot}`}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="grid gap-2 pt-2" style={{ gridTemplateColumns }}>
-        {roundNumbers.flatMap((round) =>
-          slots.map((slot) => {
-            const pick = pickByCell.get(`${round}-${slot}`)
-            const isOnTheClock =
-              !pick && round === Math.ceil(currentPickNo / teams) && slot === currentSlot
-            return (
+      {/* Width here is driven by the widest child (the picks grid) so the sticky header matches it. */}
+      <div>
+        <div className="sticky top-0 z-10 bg-slate-950 pb-3 pt-3">
+          <div className="grid gap-2" style={{ gridTemplateColumns }}>
+            {slots.map((slot) => (
               <div
-                key={`${round}-${slot}`}
-                className={`flex min-h-[64px] flex-col justify-center rounded-md border px-2 py-2 sm:min-h-[80px] ${
-                  pick
-                    ? 'border-slate-800 bg-slate-900'
-                    : isOnTheClock
-                      ? 'animate-pulse border-emerald-500 bg-emerald-500/10'
-                      : 'border-slate-800/60 bg-slate-950'
-                }`}
+                key={`head-${slot}`}
+                className="flex items-center justify-center rounded-md bg-slate-900 px-2 py-2 text-center text-sm font-semibold leading-tight text-slate-200 sm:text-base"
+                title={slotLabels[slot] ?? `Slot ${slot}`}
               >
-                {pick ? (
-                  <>
-                    <p className="line-clamp-2 text-sm font-medium leading-tight text-slate-100 sm:text-base">
-                      {pick.metadata.first_name} {pick.metadata.last_name}
-                    </p>
-                    <p className="text-xs text-slate-400 sm:text-sm">
-                      {pick.metadata.position} · {pick.metadata.team ?? 'FA'}
-                    </p>
-                  </>
-                ) : (
-                  <p className="text-xs text-slate-600 sm:text-sm">
-                    {round}.
-                    {String(
-                      posInRoundForSlot(
-                        round,
-                        slot,
-                        teams,
-                        draft.type,
-                        draft.settings.reversal_round,
-                      ),
-                    ).padStart(2, '0')}
-                  </p>
-                )}
+                <span className="line-clamp-3">{slotLabels[slot] ?? `Slot ${slot}`}</span>
               </div>
-            )
-          }),
-        )}
+            ))}
+          </div>
+        </div>
+
+        <div className="grid gap-2 pt-2" style={{ gridTemplateColumns }}>
+          {roundNumbers.flatMap((round) =>
+            slots.map((slot) => {
+              const pick = pickByCell.get(`${round}-${slot}`)
+              const isOnTheClock =
+                !pick && round === Math.ceil(currentPickNo / teams) && slot === currentSlot
+              return (
+                <div
+                  key={`${round}-${slot}`}
+                  className={`flex min-h-[64px] flex-col justify-center rounded-md border px-2 py-2 sm:min-h-[80px] ${
+                    pick
+                      ? 'border-slate-800 bg-slate-900'
+                      : isOnTheClock
+                        ? 'animate-pulse border-emerald-500 bg-emerald-500/10'
+                        : 'border-slate-800/60 bg-slate-950'
+                  }`}
+                >
+                  {pick ? (
+                    <>
+                      <p className="line-clamp-2 text-sm font-medium leading-tight text-slate-100 sm:text-base">
+                        {pick.metadata.first_name} {pick.metadata.last_name}
+                      </p>
+                      <p className="text-xs text-slate-400 sm:text-sm">
+                        {pick.metadata.position} · {pick.metadata.team ?? 'FA'}
+                      </p>
+                    </>
+                  ) : (
+                    <p className="text-xs text-slate-600 sm:text-sm">
+                      {round}.
+                      {String(
+                        posInRoundForSlot(
+                          round,
+                          slot,
+                          teams,
+                          draft.type,
+                          draft.settings.reversal_round,
+                        ),
+                      ).padStart(2, '0')}
+                    </p>
+                  )}
+                </div>
+              )
+            }),
+          )}
+        </div>
       </div>
     </div>
   )
