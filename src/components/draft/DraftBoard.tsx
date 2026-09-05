@@ -63,7 +63,7 @@ export default function DraftBoard({ draft, picks, slotLabels }: Props) {
               >
                 {pick ? (
                   <>
-                    <p className="truncate text-sm font-medium text-slate-100 sm:text-base">
+                    <p className="line-clamp-2 text-sm font-medium leading-tight text-slate-100 sm:text-base">
                       {pick.metadata.first_name} {pick.metadata.last_name}
                     </p>
                     <p className="text-xs text-slate-400 sm:text-sm">
