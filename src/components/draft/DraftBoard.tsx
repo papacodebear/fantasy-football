@@ -32,16 +32,16 @@ export default function DraftBoard({ draft, picks, slotLabels }: Props) {
   const gridTemplateColumns = `repeat(${teams}, minmax(140px, 1fr))`
 
   return (
-    <div className="h-full overflow-auto p-3 sm:p-4">
-      <div className="sticky top-0 z-10 -mx-3 -mt-3 bg-slate-900 px-3 pb-3 pt-3 sm:-mx-4 sm:-mt-4 sm:px-4 sm:pt-4">
+    <div className="h-full overflow-auto px-3 pb-3 sm:px-4 sm:pb-4">
+      <div className="sticky top-0 z-10 -mx-3 bg-slate-950 px-3 pt-3 pb-3 sm:-mx-4 sm:px-4 sm:pt-4">
         <div className="grid gap-2" style={{ gridTemplateColumns }}>
           {slots.map((slot) => (
             <div
               key={`head-${slot}`}
-              className="line-clamp-3 rounded-md bg-slate-800 px-2 py-2 text-center text-sm font-semibold leading-tight text-slate-200 sm:text-base"
+              className="flex items-center justify-center rounded-md bg-slate-900 px-2 py-2 text-center text-sm font-semibold leading-tight text-slate-200 sm:text-base"
               title={slotLabels[slot] ?? `Slot ${slot}`}
             >
-              {slotLabels[slot] ?? `Slot ${slot}`}
+              <span className="line-clamp-3">{slotLabels[slot] ?? `Slot ${slot}`}</span>
             </div>
           ))}
         </div>
