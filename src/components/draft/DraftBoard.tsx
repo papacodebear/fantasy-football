@@ -46,7 +46,7 @@ export default function DraftBoard({ draft, picks, slotLabels }: Props) {
           <div
             key={`head-${slot}`}
             data-slot={slot}
-            className="sticky top-0 z-10 flex items-center justify-center rounded-md bg-slate-900 px-2 py-2 text-center text-sm font-semibold leading-tight text-slate-200 sm:text-base"
+            className="sticky top-0 z-10 mb-4 flex items-center justify-center rounded-md bg-slate-900 px-2 py-2 text-center text-sm font-semibold leading-tight text-slate-200 sm:text-base"
             style={{ gridRow: 1, gridColumn: slot }}
             title={slotLabels[slot] ?? `Slot ${slot}`}
           >
