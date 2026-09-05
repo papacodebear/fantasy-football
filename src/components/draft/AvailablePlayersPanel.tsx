@@ -86,10 +86,10 @@ export default function AvailablePlayersPanel({
                     draftedByLabel ? 'opacity-60' : ''
                   }`}
                 >
-                  <span className="truncate text-slate-200">
+                  <span className="min-w-0 flex-1 truncate text-slate-200">
                     {p.full_name ?? `${p.first_name} ${p.last_name}`}
                   </span>
-                  <span className="ml-2 shrink-0 text-slate-500">
+                  <span className="ml-2 max-w-[45%] shrink-0 truncate text-slate-500">
                     {draftedByLabel
                       ? `Drafted by ${draftedByLabel}`
                       : `${p.position} · ${p.team ?? 'FA'}`}
