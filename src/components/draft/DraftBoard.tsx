@@ -33,26 +33,25 @@ export default function DraftBoard({ draft, picks, slotLabels }: Props) {
 
   return (
     <div id="board-scroll" className="h-full overflow-auto px-3 pb-3 sm:px-4 sm:pb-4">
-      {/* Backdrop, header pills, and pick cells share one grid so the backdrop's width always
-          matches the pick cells' exactly — no separate container widths to keep in sync. */}
+      {/* One sticky wrapper (not one per pill) so the header locks as a single rigid unit — it's
+          a full-span item of the outer grid for a guaranteed width match with the pick cells. */}
       <div id="board-grid" className="grid gap-2" style={{ gridTemplateColumns }}>
         <div
           id="board-header-bar"
-          className="sticky top-0 z-0 bg-slate-950"
-          style={{ gridRow: 1, gridColumn: '1 / -1' }}
-        />
-
-        {slots.map((slot) => (
-          <div
-            key={`head-${slot}`}
-            data-slot={slot}
-            className="sticky top-0 z-10 mb-2 mt-2 flex items-center justify-center rounded-md bg-slate-900 px-2 py-2 text-center text-sm font-semibold leading-tight text-slate-200 sm:text-base"
-            style={{ gridRow: 1, gridColumn: slot }}
-            title={slotLabels[slot] ?? `Slot ${slot}`}
-          >
-            <span className="line-clamp-3">{slotLabels[slot] ?? `Slot ${slot}`}</span>
-          </div>
-        ))}
+          className="sticky top-0 z-10 grid gap-2 bg-slate-950 pb-1 pt-2"
+          style={{ gridRow: 1, gridColumn: '1 / -1', gridTemplateColumns }}
+        >
+          {slots.map((slot) => (
+            <div
+              key={`head-${slot}`}
+              data-slot={slot}
+              className="flex items-center justify-center rounded-md bg-slate-900 px-2 py-2 text-center text-sm font-semibold leading-tight text-slate-200 sm:text-base"
+              title={slotLabels[slot] ?? `Slot ${slot}`}
+            >
+              <span className="line-clamp-3">{slotLabels[slot] ?? `Slot ${slot}`}</span>
+            </div>
+          ))}
+        </div>
 
         {roundNumbers.flatMap((round) =>
           slots.map((slot) => {
