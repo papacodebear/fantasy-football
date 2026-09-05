@@ -30,7 +30,7 @@ export default function DraftBoard({ draft, picks, slotLabels }: Props) {
   const roundNumbers = Array.from({ length: rounds }, (_, i) => i + 1)
 
   return (
-    <div className="overflow-auto p-3 sm:p-4">
+    <div className="h-full overflow-auto p-3 sm:p-4">
       <div
         className="grid gap-2"
         style={{ gridTemplateColumns: `repeat(${teams}, minmax(140px, 1fr))` }}
@@ -96,7 +96,7 @@ export default function DraftBoard({ draft, picks, slotLabels }: Props) {
 function AuctionPicksList({ picks }: { picks: SleeperPick[] }) {
   const sorted = [...picks].sort((a, b) => b.pick_no - a.pick_no)
   return (
-    <div className="flex flex-col gap-2 overflow-auto p-3 sm:p-4">
+    <div className="flex h-full flex-col gap-2 overflow-auto p-3 sm:p-4">
       {sorted.map((pick) => (
         <div
           key={pick.pick_no}
