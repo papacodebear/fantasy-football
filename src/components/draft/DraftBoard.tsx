@@ -29,22 +29,25 @@ export default function DraftBoard({ draft, picks, slotLabels }: Props) {
   const slots = Array.from({ length: teams }, (_, i) => i + 1)
   const roundNumbers = Array.from({ length: rounds }, (_, i) => i + 1)
 
+  const gridTemplateColumns = `repeat(${teams}, minmax(140px, 1fr))`
+
   return (
     <div className="h-full overflow-auto p-3 sm:p-4">
-      <div
-        className="grid gap-2"
-        style={{ gridTemplateColumns: `repeat(${teams}, minmax(140px, 1fr))` }}
-      >
-        {slots.map((slot) => (
-          <div
-            key={`head-${slot}`}
-            className="sticky top-0 z-10 line-clamp-3 rounded-md bg-slate-900 px-2 pt-2 pb-5 text-center text-sm font-semibold leading-tight text-slate-200 sm:text-base"
-            title={slotLabels[slot] ?? `Slot ${slot}`}
-          >
-            {slotLabels[slot] ?? `Slot ${slot}`}
-          </div>
-        ))}
+      <div className="sticky top-0 z-10 -mx-3 -mt-3 bg-slate-900 px-3 pb-3 pt-3 sm:-mx-4 sm:-mt-4 sm:px-4 sm:pt-4">
+        <div className="grid gap-2" style={{ gridTemplateColumns }}>
+          {slots.map((slot) => (
+            <div
+              key={`head-${slot}`}
+              className="line-clamp-3 rounded-md bg-slate-800 px-2 py-2 text-center text-sm font-semibold leading-tight text-slate-200 sm:text-base"
+              title={slotLabels[slot] ?? `Slot ${slot}`}
+            >
+              {slotLabels[slot] ?? `Slot ${slot}`}
+            </div>
+          ))}
+        </div>
+      </div>
 
+      <div className="grid gap-2 pt-2" style={{ gridTemplateColumns }}>
         {roundNumbers.flatMap((round) =>
           slots.map((slot) => {
             const pick = pickByCell.get(`${round}-${slot}`)
