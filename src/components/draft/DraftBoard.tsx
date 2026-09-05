@@ -38,7 +38,7 @@ export default function DraftBoard({ draft, picks, slotLabels }: Props) {
       <div id="board-grid" className="grid gap-2" style={{ gridTemplateColumns }}>
         <div
           id="board-header-bar"
-          className="sticky top-0 z-10 grid gap-2 bg-slate-950 pb-1 pt-2"
+          className="sticky top-0 z-10 grid gap-2 bg-slate-950 pb-2 pt-2"
           style={{ gridRow: 1, gridColumn: '1 / -1', gridTemplateColumns }}
         >
           {slots.map((slot) => (
@@ -61,7 +61,13 @@ export default function DraftBoard({ draft, picks, slotLabels }: Props) {
             return (
               <div
                 key={`${round}-${slot}`}
-                style={{ gridRow: round + 1, gridColumn: slot }}
+                style={{
+                  gridRow: round + 1,
+                  gridColumn: slot,
+                  // Cancels the header's own bottom padding stacking with the grid's row gap,
+                  // which otherwise gives round 1 more clearance than every other row gets.
+                  ...(round === 1 ? { marginTop: '-0.5rem' } : {}),
+                }}
                 className={`flex min-h-[64px] flex-col justify-center rounded-md border px-2 py-2 sm:min-h-[80px] ${
                   pick
                     ? 'border-slate-800 bg-slate-900'

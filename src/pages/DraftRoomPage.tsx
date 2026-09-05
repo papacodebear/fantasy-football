@@ -60,7 +60,7 @@ export default function DraftRoomPage() {
   }
 
   return (
-    <div className="flex h-screen flex-col bg-slate-950">
+    <div className="flex h-screen flex-col overflow-x-hidden bg-slate-950">
       <DraftHeader
         draft={draft}
         picks={picks}
@@ -77,7 +77,7 @@ export default function DraftRoomPage() {
 
       {isWide ? (
         <div className="flex min-h-0 flex-1 overflow-hidden">
-          <div className="min-h-0 flex-1 overflow-hidden">
+          <div className="min-h-0 min-w-0 flex-1 overflow-hidden">
             <DraftBoard draft={draft} picks={picks} slotLabels={slotLabels} />
           </div>
           {showSidebar && (
@@ -98,7 +98,7 @@ export default function DraftRoomPage() {
           )}
         </div>
       ) : (
-        <div className="min-h-0 flex-1 overflow-hidden">
+        <div className="min-h-0 min-w-0 flex-1 overflow-hidden">
           {mobileTab === 'board' && (
             <DraftBoard draft={draft} picks={picks} slotLabels={slotLabels} />
           )}
