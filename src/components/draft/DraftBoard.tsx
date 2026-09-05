@@ -38,7 +38,7 @@ export default function DraftBoard({ draft, picks, slotLabels }: Props) {
         {slots.map((slot) => (
           <div
             key={`head-${slot}`}
-            className="sticky top-0 z-10 line-clamp-2 rounded-md bg-slate-900 px-2 py-2 text-center text-sm font-semibold leading-tight text-slate-200 sm:text-base"
+            className="sticky top-0 z-10 mb-3 line-clamp-3 rounded-md bg-slate-900 px-2 py-2 text-center text-sm font-semibold leading-tight text-slate-200 sm:text-base"
             title={slotLabels[slot] ?? `Slot ${slot}`}
           >
             {slotLabels[slot] ?? `Slot ${slot}`}
