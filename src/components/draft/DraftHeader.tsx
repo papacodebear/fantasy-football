@@ -10,6 +10,9 @@ interface Props {
   isFetchingPicks: boolean
   nameMode: NameMode
   onNameModeChange: (mode: NameMode) => void
+  isWide: boolean
+  showSidebar: boolean
+  onToggleSidebar: () => void
 }
 
 export default function DraftHeader({
@@ -19,6 +22,9 @@ export default function DraftHeader({
   isFetchingPicks,
   nameMode,
   onNameModeChange,
+  isWide,
+  showSidebar,
+  onToggleSidebar,
 }: Props) {
   const now = useNow()
   const { teams, rounds, pick_timer } = draft.settings
@@ -54,6 +60,14 @@ export default function DraftHeader({
       </div>
 
       <div className="flex items-center gap-4">
+        {isWide && (
+          <button
+            onClick={onToggleSidebar}
+            className="rounded-full bg-slate-800 px-3 py-1 text-xs font-medium text-slate-300 hover:bg-slate-700"
+          >
+            {showSidebar ? 'Hide players' : 'Show players'}
+          </button>
+        )}
         <div className="flex rounded-full bg-slate-800 p-0.5 text-xs font-medium">
           {(['team', 'username'] as const).map((mode) => (
             <button

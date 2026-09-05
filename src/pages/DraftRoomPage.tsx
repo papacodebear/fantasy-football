@@ -19,6 +19,7 @@ export default function DraftRoomPage() {
   const { draftId } = useParams<{ draftId: string }>()
   const [mobileTab, setMobileTab] = useState<MobileTab>('board')
   const [nameMode, setNameMode] = useState<NameMode>('team')
+  const [showSidebar, setShowSidebar] = useState(true)
   const isWide = useMediaQuery('(min-width: 1024px)')
 
   const draftQuery = useDraft(draftId)
@@ -65,6 +66,9 @@ export default function DraftRoomPage() {
         isFetchingPicks={picksQuery.isFetching}
         nameMode={nameMode}
         onNameModeChange={setNameMode}
+        isWide={isWide}
+        showSidebar={showSidebar}
+        onToggleSidebar={() => setShowSidebar((v) => !v)}
       />
 
       {!isWide && <MobileTabs active={mobileTab} onChange={setMobileTab} />}
@@ -74,18 +78,20 @@ export default function DraftRoomPage() {
           <div className="min-h-0 flex-1 overflow-hidden">
             <DraftBoard draft={draft} picks={picks} slotLabels={slotLabels} />
           </div>
-          <aside className="flex w-80 shrink-0 flex-col overflow-hidden border-l border-slate-800">
-            <div className="min-h-0 flex-1 overflow-hidden border-b border-slate-800">
-              <AvailablePlayersPanel
-                players={available}
-                isLoading={playersQuery.isLoading}
-                positionFilters={positionFilters}
-              />
-            </div>
-            <div className="h-64 shrink-0 overflow-hidden">
-              <PicksFeed picks={picks} slotLabels={slotLabels} />
-            </div>
-          </aside>
+          {showSidebar && (
+            <aside className="flex w-80 shrink-0 flex-col overflow-hidden border-l border-slate-800">
+              <div className="min-h-0 flex-1 overflow-hidden border-b border-slate-800">
+                <AvailablePlayersPanel
+                  players={available}
+                  isLoading={playersQuery.isLoading}
+                  positionFilters={positionFilters}
+                />
+              </div>
+              <div className="h-64 shrink-0 overflow-hidden">
+                <PicksFeed picks={picks} slotLabels={slotLabels} />
+              </div>
+            </aside>
+          )}
         </div>
       ) : (
         <div className="min-h-0 flex-1 overflow-hidden">
