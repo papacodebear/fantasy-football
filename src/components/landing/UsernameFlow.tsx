@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getLeagueDrafts, getUserByUsername, getUserLeagues } from '@/api/sleeper'
 import { useNflState } from '@/hooks/useNflState'
+import { autoSelectDraft } from '@/lib/autoSelectDraft'
 
 export default function UsernameFlow() {
   const navigate = useNavigate()
@@ -33,6 +34,11 @@ export default function UsernameFlow() {
     queryFn: () => getLeagueDrafts(selectedLeagueId),
     enabled: !!selectedLeagueId,
   })
+  const autoDraft = draftsQuery.data ? autoSelectDraft(draftsQuery.data) : null
+
+  useEffect(() => {
+    if (autoDraft) navigate(`/draft/${autoDraft.draft_id}`)
+  }, [autoDraft, navigate])
 
   function handleUsernameSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -110,7 +116,7 @@ export default function UsernameFlow() {
         </div>
       )}
 
-      {selectedLeagueId && (
+      {selectedLeagueId && !autoDraft && (
         <div className="flex flex-col gap-2 rounded-lg border border-slate-800 bg-slate-900/50 p-4">
           {draftsQuery.isLoading && <p className="text-sm text-slate-400">Loading drafts…</p>}
           {draftsQuery.data && draftsQuery.data.length === 0 && (

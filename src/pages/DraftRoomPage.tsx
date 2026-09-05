@@ -13,11 +13,12 @@ import { useLeague, useLeagueRosters, useLeagueUsers } from '@/hooks/useLeague'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { usePlayers } from '@/hooks/usePlayers'
 import { derivePositionFilters } from '@/lib/positions'
-import { buildSlotLabels } from '@/lib/teamLabels'
+import { buildSlotLabels, type NameMode } from '@/lib/teamLabels'
 
 export default function DraftRoomPage() {
   const { draftId } = useParams<{ draftId: string }>()
   const [mobileTab, setMobileTab] = useState<MobileTab>('board')
+  const [nameMode, setNameMode] = useState<NameMode>('team')
   const isWide = useMediaQuery('(min-width: 1024px)')
 
   const draftQuery = useDraft(draftId)
@@ -35,6 +36,7 @@ export default function DraftRoomPage() {
     draft?.slot_to_roster_id ?? null,
     leagueRostersQuery.data,
     leagueUsersQuery.data,
+    nameMode,
   )
 
   useEffect(() => {
@@ -61,17 +63,19 @@ export default function DraftRoomPage() {
         picks={picks}
         slotLabels={slotLabels}
         isFetchingPicks={picksQuery.isFetching}
+        nameMode={nameMode}
+        onNameModeChange={setNameMode}
       />
 
       {!isWide && <MobileTabs active={mobileTab} onChange={setMobileTab} />}
 
       {isWide ? (
-        <div className="flex flex-1 overflow-hidden">
-          <div className="flex-1 overflow-hidden">
+        <div className="flex min-h-0 flex-1 overflow-hidden">
+          <div className="min-h-0 flex-1 overflow-hidden">
             <DraftBoard draft={draft} picks={picks} slotLabels={slotLabels} />
           </div>
           <aside className="flex w-80 shrink-0 flex-col overflow-hidden border-l border-slate-800">
-            <div className="flex-1 overflow-hidden border-b border-slate-800">
+            <div className="min-h-0 flex-1 overflow-hidden border-b border-slate-800">
               <AvailablePlayersPanel
                 players={available}
                 isLoading={playersQuery.isLoading}
@@ -84,7 +88,7 @@ export default function DraftRoomPage() {
           </aside>
         </div>
       ) : (
-        <div className="flex-1 overflow-hidden">
+        <div className="min-h-0 flex-1 overflow-hidden">
           {mobileTab === 'board' && (
             <DraftBoard draft={draft} picks={picks} slotLabels={slotLabels} />
           )}

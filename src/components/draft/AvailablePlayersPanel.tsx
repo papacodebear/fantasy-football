@@ -62,7 +62,7 @@ export default function AvailablePlayersPanel({ players, isLoading, positionFilt
             <li key={p.player_id}>
               <button
                 onClick={() => setSelectedPlayer(p)}
-                className="flex w-full items-center justify-between px-1 py-1.5 text-left text-xs hover:bg-slate-800"
+                className="flex w-full items-center justify-between px-1 py-1.5 text-left text-sm hover:bg-slate-800"
               >
                 <span className="truncate text-slate-200">
                   {p.full_name ?? `${p.first_name} ${p.last_name}`}

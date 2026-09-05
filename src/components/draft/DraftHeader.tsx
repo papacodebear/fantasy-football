@@ -1,15 +1,25 @@
 import type { SleeperDraft, SleeperPick } from '@/api/sleeper'
 import { useNow } from '@/hooks/useNow'
 import { roundForPick, slotForPick } from '@/lib/draftOrder'
+import type { NameMode } from '@/lib/teamLabels'
 
 interface Props {
   draft: SleeperDraft
   picks: SleeperPick[]
   slotLabels: Record<number, string>
   isFetchingPicks: boolean
+  nameMode: NameMode
+  onNameModeChange: (mode: NameMode) => void
 }
 
-export default function DraftHeader({ draft, picks, slotLabels, isFetchingPicks }: Props) {
+export default function DraftHeader({
+  draft,
+  picks,
+  slotLabels,
+  isFetchingPicks,
+  nameMode,
+  onNameModeChange,
+}: Props) {
   const now = useNow()
   const { teams, rounds, pick_timer } = draft.settings
   const totalPicks = teams * rounds
@@ -44,6 +54,21 @@ export default function DraftHeader({ draft, picks, slotLabels, isFetchingPicks 
       </div>
 
       <div className="flex items-center gap-4">
+        <div className="flex rounded-full bg-slate-800 p-0.5 text-xs font-medium">
+          {(['team', 'username'] as const).map((mode) => (
+            <button
+              key={mode}
+              onClick={() => onNameModeChange(mode)}
+              className={`rounded-full px-2 py-1 capitalize ${
+                nameMode === mode
+                  ? 'bg-emerald-600 text-white'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              {mode}
+            </button>
+          ))}
+        </div>
         {!isComplete && onTheClock && (
           <div className="text-right">
             <p className="text-xs uppercase tracking-wide text-emerald-400">On the clock</p>
