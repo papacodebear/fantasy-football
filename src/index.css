@@ -10,6 +10,10 @@ body,
   height: 100%;
 }
 
+html {
+  font-size: 125%;
+}
+
 body {
   @apply bg-slate-950 text-slate-100;
 }
