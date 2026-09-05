@@ -12,6 +12,7 @@ import { useDraftPicks } from '@/hooks/useDraftPicks'
 import { useLeague, useLeagueRosters, useLeagueUsers } from '@/hooks/useLeague'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { usePlayers } from '@/hooks/usePlayers'
+import { buildDraftedByLookup } from '@/lib/draftedBy'
 import { derivePositionFilters } from '@/lib/positions'
 import { buildSlotLabels, type NameMode } from '@/lib/teamLabels'
 
@@ -39,6 +40,7 @@ export default function DraftRoomPage() {
     leagueUsersQuery.data,
     nameMode,
   )
+  const draftedBy = buildDraftedByLookup(picks, slotLabels)
 
   useEffect(() => {
     if (draft && draftId) {
@@ -83,6 +85,8 @@ export default function DraftRoomPage() {
               <div className="min-h-0 flex-1 overflow-hidden border-b border-slate-800">
                 <AvailablePlayersPanel
                   players={available}
+                  allPlayers={playersQuery.data}
+                  draftedBy={draftedBy}
                   isLoading={playersQuery.isLoading}
                   positionFilters={positionFilters}
                 />
@@ -101,6 +105,8 @@ export default function DraftRoomPage() {
           {mobileTab === 'available' && (
             <AvailablePlayersPanel
               players={available}
+              allPlayers={playersQuery.data}
+              draftedBy={draftedBy}
               isLoading={playersQuery.isLoading}
               positionFilters={positionFilters}
             />
