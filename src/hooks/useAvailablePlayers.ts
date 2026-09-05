@@ -11,7 +11,11 @@ export function useAvailablePlayers(
     return Object.values(players)
       .filter(
         (p) =>
-          p.fantasy_positions && p.fantasy_positions.length > 0 && !draftedIds.has(p.player_id),
+          p.active &&
+          p.team &&
+          p.fantasy_positions &&
+          p.fantasy_positions.length > 0 &&
+          !draftedIds.has(p.player_id),
       )
       .sort((a, b) => (a.search_rank ?? Infinity) - (b.search_rank ?? Infinity))
   }, [players, picks])
